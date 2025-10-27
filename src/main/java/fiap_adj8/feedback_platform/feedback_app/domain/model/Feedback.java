@@ -8,14 +8,14 @@ public class Feedback {
     private User student;
     private Lesson lesson;
     private String comment;
-    private Integer rating;
+    private Rating rating;
     private Boolean urgent;
     private LocalDateTime date;
 
     public Feedback() {
     }
 
-    public Feedback(Long id, User student, Lesson lesson, String comment, Integer rating, Boolean urgent, LocalDateTime date) {
+    public Feedback(Long id, User student, Lesson lesson, String comment, Rating rating, Boolean urgent, LocalDateTime date) {
         this.id = id;
         this.student = student;
         this.lesson = lesson;
@@ -57,11 +57,11 @@ public class Feedback {
         this.comment = comment;
     }
 
-    public Integer getRating() {
+    public Rating getRating() {
         return rating;
     }
 
-    public void setRating(Integer rating) {
+    public void setRating(Rating rating) {
         this.rating = rating;
     }
 
