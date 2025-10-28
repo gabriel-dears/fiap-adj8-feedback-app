@@ -7,11 +7,8 @@ import org.springframework.stereotype.Component;
 public class JpaFeedbackMapper {
 
     public Feedback toModel(JpaFeedbackEntity jpaFeedbackEntity) {
-
-        if( jpaFeedbackEntity == null ) return null;
-
+        if (jpaFeedbackEntity == null) return null;
         Feedback feedback = new Feedback();
-
         feedback.setId(null);
         feedback.setLesson(null);
         feedback.setStudent(null);
@@ -19,9 +16,7 @@ public class JpaFeedbackMapper {
         feedback.setUrgent(null);
         feedback.setComment(null);
         feedback.setDate(null);
-
         // TODO: populate fields
-
         return feedback;
 
     }

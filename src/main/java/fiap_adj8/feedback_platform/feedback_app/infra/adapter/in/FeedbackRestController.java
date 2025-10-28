@@ -27,7 +27,11 @@ public class FeedbackRestController {
         return ResponseEntity.ok(DtoFeedbackMapper.toDto(feedback));
     }
 
-    // TODO: integrate with db
+    // TODO: integrate with db - create docker compose
+    // TODO: add flyway as dependency
+    // TODO: create scripts
+    // TODO: create entity
+    // TODO: populate fields
     // TODO: create integration tests
     // TODO: create CRUD
 
