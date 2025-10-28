@@ -1,28 +1,22 @@
 package fiap_adj8.feedback_platform.feedback_app.domain.model;
 
 import java.util.List;
+import java.util.UUID;
 
 public class Lesson {
 
-    private Long id;
+    private UUID id;
     private String name;
     private String description;
     private List<Feedback> feedbacks;
-
-    public Lesson() {}
-
-    public Lesson(Long id, String name, String description, List<Feedback> feedbacks) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.feedbacks = feedbacks;
+    public Lesson() {
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

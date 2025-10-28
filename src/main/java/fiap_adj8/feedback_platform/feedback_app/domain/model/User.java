@@ -1,30 +1,24 @@
 package fiap_adj8.feedback_platform.feedback_app.domain.model;
 
 import java.util.List;
+import java.util.UUID;
 
 public class User {
 
-    private Long id;
+    private UUID id;
     private String name;
     private String email;
     private Role role;
     private List<Feedback> feedbacks;
 
-    public User() {}
-
-    public User(Long id, String name, String email, Role role, List<Feedback> feedbacks) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.role = role;
-        this.feedbacks = feedbacks;
+    public User() {
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

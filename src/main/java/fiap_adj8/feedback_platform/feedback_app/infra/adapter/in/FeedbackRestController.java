@@ -27,7 +27,8 @@ public class FeedbackRestController {
         return ResponseEntity.ok(DtoFeedbackMapper.toDto(feedback));
     }
 
-    // TODO: integrate with unit tests
+    // TODO: integrate with db
+    // TODO: create integration tests
     // TODO: create CRUD
 
 }
