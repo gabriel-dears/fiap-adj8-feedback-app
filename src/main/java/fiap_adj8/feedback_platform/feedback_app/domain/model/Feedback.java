@@ -1,10 +1,11 @@
 package fiap_adj8.feedback_platform.feedback_app.domain.model;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class Feedback {
 
-    private Long id;
+    private UUID id;
     private User student;
     private Lesson lesson;
     private String comment;
@@ -15,21 +16,11 @@ public class Feedback {
     public Feedback() {
     }
 
-    public Feedback(Long id, User student, Lesson lesson, String comment, Rating rating, Boolean urgent, LocalDateTime date) {
-        this.id = id;
-        this.student = student;
-        this.lesson = lesson;
-        this.comment = comment;
-        this.rating = rating;
-        this.urgent = urgent;
-        this.date = date;
-    }
-
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
