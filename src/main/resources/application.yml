@@ -1,1 +1,18 @@
-spring.application.name=fiap-adj8-feedback-app
+spring:
+  datasource:
+    url: jdbc:postgresql://fiap-adj8-feedback-app-db:5432/feedback_db
+    username: user
+    password: pass
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration

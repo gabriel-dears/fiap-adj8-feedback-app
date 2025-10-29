@@ -6,17 +6,24 @@ import org.springframework.stereotype.Component;
 @Component
 public class JpaFeedbackMapper {
 
+    private final JpaLessonMapper jpaLessonMapper;
+    private final JpaStudentMapper jpaStudentMapper;
+
+    public JpaFeedbackMapper(JpaLessonMapper jpaLessonMapper, JpaStudentMapper jpaStudentMapper) {
+        this.jpaLessonMapper = jpaLessonMapper;
+        this.jpaStudentMapper = jpaStudentMapper;
+    }
+
     public Feedback toModel(JpaFeedbackEntity jpaFeedbackEntity) {
         if (jpaFeedbackEntity == null) return null;
         Feedback feedback = new Feedback();
-        feedback.setId(null);
-        feedback.setLesson(null);
-        feedback.setStudent(null);
-        feedback.setRating(null);
-        feedback.setUrgent(null);
-        feedback.setComment(null);
-        feedback.setDate(null);
-        // TODO: populate fields
+        feedback.setId(jpaFeedbackEntity.getId());
+        feedback.setLesson(jpaLessonMapper.toModel(jpaFeedbackEntity.getLesson()));
+        feedback.setStudent(jpaStudentMapper.toModel(jpaFeedbackEntity.getStudent()));
+        feedback.setRating(jpaFeedbackEntity.getRating());
+        feedback.setUrgent(jpaFeedbackEntity.getUrgent());
+        feedback.setComment(jpaFeedbackEntity.getComment());
+        feedback.setDate(jpaFeedbackEntity.getDate());
         return feedback;
 
     }

@@ -1,0 +1,25 @@
+services:
+  fiap-adj8-feedback-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fiap-adj8-feedback-app
+    environment:
+      TEST: "TEST"
+    depends_on:
+      - fiap-adj8-feedback-app-db
+  fiap-adj8-feedback-app-db:
+    image: postgres:16-alpine
+    container_name: feedback_db
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: feedback_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data: { }
