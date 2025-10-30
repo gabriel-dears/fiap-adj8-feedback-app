@@ -60,7 +60,8 @@ public class FeedbackRestController {
         return ResponseEntity.created(uri).body(DtoFeedbackMapper.toDto(feedbackAfterCreation));
     }
 
-    // TODO: create integration tests - find all
+    // TODO: create find all
     // TODO: create unit tests -> using AI?
+    // TODO: create integration tests - find all
     // TODO: create insomnia collection
 }
