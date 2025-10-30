@@ -1,5 +1,6 @@
 package fiap_adj8.feedback_platform.feedback_app.infra.adapter.in;
 
+import fiap_adj8.feedback_platform.feedback_app.application.exception.OnlyStudentsCanCreateFeedbackException;
 import fiap_adj8.feedback_platform.feedback_app.application.port.in.CreateFeedbackUseCase;
 import fiap_adj8.feedback_platform.feedback_app.application.port.in.FindFeedbackByIdForAdminUseCase;
 import fiap_adj8.feedback_platform.feedback_app.application.port.in.FindFeedbackByIdForStudentUseCase;
@@ -21,37 +22,32 @@ public class FeedbackRestController {
     private final FindFeedbackByIdForAdminUseCase findFeedbackByIdForAdminUseCase;
     private final FindFeedbackByIdForStudentUseCase findFeedbackByIdForStudentUseCase;
     private final CreateFeedbackUseCase createFeedbackUseCase;
+    private final AuthHelper authHelper;
 
-    public FeedbackRestController(FindFeedbackByIdForAdminUseCase findFeedbackByIdForAdminUseCase, FindFeedbackByIdForStudentUseCase findFeedbackByIdForStudentUseCase, CreateFeedbackUseCase createFeedbackUseCase) {
+    public FeedbackRestController(FindFeedbackByIdForAdminUseCase findFeedbackByIdForAdminUseCase, FindFeedbackByIdForStudentUseCase findFeedbackByIdForStudentUseCase, CreateFeedbackUseCase createFeedbackUseCase, AuthHelper authHelper) {
         this.findFeedbackByIdForAdminUseCase = findFeedbackByIdForAdminUseCase;
         this.findFeedbackByIdForStudentUseCase = findFeedbackByIdForStudentUseCase;
         this.createFeedbackUseCase = createFeedbackUseCase;
+        this.authHelper = authHelper;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<FeedbackResponseDto> findFeedbackById(@PathVariable UUID id, Authentication authentication) {
-        boolean isAdmin = authentication.getAuthorities()
-                .stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-
+        boolean isAdmin = authHelper.isAdminRole();
         Feedback feedback;
-
         if (isAdmin) {
             feedback = findFeedbackByIdForAdminUseCase.execute(id);
         } else {
             feedback = findFeedbackByIdForStudentUseCase.execute(id, authentication.getName());
         }
-
         return ResponseEntity.ok(DtoFeedbackMapper.toDto(feedback));
     }
 
     @PostMapping
     public ResponseEntity<FeedbackResponseDto> createFeedback(@RequestBody CreateFeedbackRequestDto createFeedbackRequestDto, UriComponentsBuilder uriComponentsBuilder, Authentication authentication) {
-        boolean isStudent = authentication.getAuthorities()
-                .stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_STUDENT"));
-        if (!isStudent) {
-            throw new RuntimeException("Only students can create feedback");
+        boolean isStudentRole = authHelper.isStudentRole();
+        if (!isStudentRole) {
+            throw new OnlyStudentsCanCreateFeedbackException("Only students can create feedback");
         }
         String email = authentication.getName();
         Feedback feedbackRequest = DtoFeedbackMapper.toDomain(createFeedbackRequestDto, email);
@@ -59,6 +55,7 @@ public class FeedbackRestController {
         URI uri = uriComponentsBuilder.buildAndExpand(feedbackAfterCreation.getId()).toUri();
         return ResponseEntity.created(uri).body(DtoFeedbackMapper.toDto(feedbackAfterCreation));
     }
+
 
     // TODO: create find all
     // TODO: create unit tests -> using AI?
