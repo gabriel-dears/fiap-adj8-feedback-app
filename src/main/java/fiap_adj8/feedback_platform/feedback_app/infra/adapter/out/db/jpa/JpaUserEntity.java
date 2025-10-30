@@ -2,6 +2,7 @@ package fiap_adj8.feedback_platform.feedback_app.infra.adapter.out.db.jpa;
 
 import fiap_adj8.feedback_platform.feedback_app.domain.model.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,10 +23,13 @@ public class JpaUserEntity {
     @UuidGenerator
     private UUID id;
 
+    @NotNull
     private String name;
 
+    @NotNull
     private String email;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Role role;
 

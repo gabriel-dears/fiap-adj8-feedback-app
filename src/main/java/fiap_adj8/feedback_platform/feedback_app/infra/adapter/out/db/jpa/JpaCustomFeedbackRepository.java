@@ -13,6 +13,8 @@ public class JpaCustomFeedbackRepository implements CustomFeedbackRepository {
     private final JpaFeedbackRepository jpaFeedbackRepository;
     private final JpaFeedbackMapper jpaFeedbackMapper;
 
+    // TODO: wrap all db operations and create custom exceptions
+
     public JpaCustomFeedbackRepository(JpaFeedbackRepository jpaFeedbackRepository, JpaFeedbackMapper jpaFeedbackMapper) {
         this.jpaFeedbackRepository = jpaFeedbackRepository;
         this.jpaFeedbackMapper = jpaFeedbackMapper;
@@ -25,4 +27,11 @@ public class JpaCustomFeedbackRepository implements CustomFeedbackRepository {
         Feedback feedback = jpaFeedbackMapper.toModel(opt.get());
         return Optional.of(feedback);
     }
+
+    @Override
+    public Feedback create(Feedback feedback) {
+        JpaFeedbackEntity entity = jpaFeedbackRepository.save(jpaFeedbackMapper.toEntity(feedback));
+        return jpaFeedbackMapper.toModel(entity);
+    }
+
 }

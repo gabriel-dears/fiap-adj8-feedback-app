@@ -9,4 +9,5 @@ public interface CustomFeedbackRepository {
 
     Optional<Feedback> findById(UUID id);
 
+    Feedback create(Feedback id);
 }

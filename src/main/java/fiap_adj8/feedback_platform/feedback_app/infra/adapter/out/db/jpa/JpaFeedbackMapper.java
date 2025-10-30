@@ -27,4 +27,15 @@ public class JpaFeedbackMapper {
         return feedback;
 
     }
+
+    public JpaFeedbackEntity toEntity(Feedback feedback) {
+        JpaFeedbackEntity jpaFeedbackEntity = new JpaFeedbackEntity();
+        jpaFeedbackEntity.setId(feedback.getId());
+        jpaFeedbackEntity.setRating(feedback.getRating());
+        jpaFeedbackEntity.setUrgent(feedback.getUrgent());
+        jpaFeedbackEntity.setComment(feedback.getComment());
+        jpaFeedbackEntity.setDate(feedback.getDate());
+        // TODO: handle Student and Lesson
+        return jpaFeedbackEntity;
+    }
 }
