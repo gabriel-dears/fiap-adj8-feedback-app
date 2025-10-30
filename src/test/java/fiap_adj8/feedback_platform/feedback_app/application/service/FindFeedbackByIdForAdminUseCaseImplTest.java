@@ -21,13 +21,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class FindFeedbackByIdUseCaseImplTest {
+class FindFeedbackByIdForAdminUseCaseImplTest {
 
     @Mock
     CustomFeedbackRepository customFeedbackRepository;
 
     @InjectMocks
-    FindFeedbackByIdUseCaseImpl findFeedbackByIdUseCase;
+    FindFeedbackByIdForAdminUseCaseImpl findFeedbackByIdUseCase;
 
     @Test
     void shouldNotFindFeedbackById() {

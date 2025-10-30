@@ -10,4 +10,6 @@ public interface CustomFeedbackRepository {
     Optional<Feedback> findById(UUID id);
 
     Feedback create(Feedback id);
+
+    Optional<Feedback> findByIdAndEmail(UUID id, String email);
 }

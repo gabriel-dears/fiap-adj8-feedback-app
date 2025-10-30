@@ -4,10 +4,8 @@ import fiap_adj8.feedback_platform.feedback_app.domain.model.Role;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.User;
 
 import java.util.Optional;
-import java.util.UUID;
 
 public interface CustomUserRepository {
 
-    Optional<User> findByIdAndRole(UUID id, Role role);
-
+    Optional<User> findByNameAndRole(String email, Role role);
 }

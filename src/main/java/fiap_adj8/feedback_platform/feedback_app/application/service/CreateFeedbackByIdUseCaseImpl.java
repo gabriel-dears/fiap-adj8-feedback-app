@@ -2,7 +2,7 @@ package fiap_adj8.feedback_platform.feedback_app.application.service;
 
 import fiap_adj8.feedback_platform.feedback_app.application.port.in.CreateFeedbackUseCase;
 import fiap_adj8.feedback_platform.feedback_app.application.port.in.FindLessonByIdUseCase;
-import fiap_adj8.feedback_platform.feedback_app.application.port.in.FindStudentByIdUseCase;
+import fiap_adj8.feedback_platform.feedback_app.application.port.in.FindStudentByEmailUseCase;
 import fiap_adj8.feedback_platform.feedback_app.application.port.out.CustomFeedbackRepository;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.Feedback;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.Lesson;
@@ -13,12 +13,12 @@ import java.util.UUID;
 public class CreateFeedbackByIdUseCaseImpl implements CreateFeedbackUseCase {
 
     private final CustomFeedbackRepository customFeedbackRepository;
-    private final FindStudentByIdUseCase findStudentByIdUseCase;
+    private final FindStudentByEmailUseCase findStudentByEmailUseCase;
     private final FindLessonByIdUseCase findLessonByIdUseCase;
 
-    public CreateFeedbackByIdUseCaseImpl(CustomFeedbackRepository customFeedbackRepository, FindStudentByIdUseCase findStudentByIdUseCase, FindLessonByIdUseCase findLessonByIdUseCase) {
+    public CreateFeedbackByIdUseCaseImpl(CustomFeedbackRepository customFeedbackRepository, FindStudentByEmailUseCase findStudentByEmailUseCase, FindLessonByIdUseCase findLessonByIdUseCase) {
         this.customFeedbackRepository = customFeedbackRepository;
-        this.findStudentByIdUseCase = findStudentByIdUseCase;
+        this.findStudentByEmailUseCase = findStudentByEmailUseCase;
         this.findLessonByIdUseCase = findLessonByIdUseCase;
     }
 
@@ -37,7 +37,7 @@ public class CreateFeedbackByIdUseCaseImpl implements CreateFeedbackUseCase {
     }
 
     private User getStudent(Feedback feedback) {
-        UUID studentId = feedback.getStudent().getId();
-        return findStudentByIdUseCase.execute(studentId);
+        String email = feedback.getStudent().getEmail();
+        return findStudentByEmailUseCase.execute(email);
     }
 }

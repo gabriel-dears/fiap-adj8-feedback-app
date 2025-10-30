@@ -6,7 +6,6 @@ import fiap_adj8.feedback_platform.feedback_app.domain.model.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
 public class JpaCustomUserRepository implements CustomUserRepository {
@@ -22,16 +21,14 @@ public class JpaCustomUserRepository implements CustomUserRepository {
     }
 
     @Override
-    public Optional<User> findByIdAndRole(UUID id, Role role) {
-
+    public Optional<User> findByNameAndRole(String email, Role role) {
         Optional<User> optResponse = Optional.empty();
 
-        Optional<JpaUserEntity> opt = jpaUserRepositoryRunner.run(() -> jpaUserRepository.findByIdAndRole(id, role));
+        Optional<JpaUserEntity> opt = jpaUserRepositoryRunner.run(() -> jpaUserRepository.findByEmailAndRole(email, role));
 
         if (opt.isPresent()) {
             optResponse = Optional.of(jpaUserMapper.toModel(opt.get()));
         }
         return optResponse;
     }
-
 }

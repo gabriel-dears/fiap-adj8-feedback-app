@@ -35,4 +35,12 @@ public class JpaCustomFeedbackRepository implements CustomFeedbackRepository {
         return jpaFeedbackMapper.toModel(entity);
     }
 
+    @Override
+    public Optional<Feedback> findByIdAndEmail(UUID id, String email) {
+        Optional<JpaFeedbackEntity> opt = jpaFeedbackRepositoryRunner.run(() -> jpaFeedbackRepository.findByIdAndStudent_Email(id, email));
+        if (opt.isEmpty()) return Optional.empty();
+        Feedback feedback = jpaFeedbackMapper.toModel(opt.get());
+        return Optional.of(feedback);
+    }
+
 }

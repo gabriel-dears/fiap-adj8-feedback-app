@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record CreateFeedbackRequestDto(
-        UUID studentId,
         UUID lessonId,
         String comment,
         Rating rating,

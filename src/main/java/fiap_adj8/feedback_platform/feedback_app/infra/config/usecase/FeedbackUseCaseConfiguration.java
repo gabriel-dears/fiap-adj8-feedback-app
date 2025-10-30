@@ -1,16 +1,10 @@
 package fiap_adj8.feedback_platform.feedback_app.infra.config.usecase;
 
-import fiap_adj8.feedback_platform.feedback_app.application.port.in.CreateFeedbackUseCase;
-import fiap_adj8.feedback_platform.feedback_app.application.port.in.FindFeedbackByIdUseCase;
-import fiap_adj8.feedback_platform.feedback_app.application.port.in.FindLessonByIdUseCase;
-import fiap_adj8.feedback_platform.feedback_app.application.port.in.FindStudentByIdUseCase;
+import fiap_adj8.feedback_platform.feedback_app.application.port.in.*;
 import fiap_adj8.feedback_platform.feedback_app.application.port.out.CustomFeedbackRepository;
 import fiap_adj8.feedback_platform.feedback_app.application.port.out.CustomLessonRepository;
 import fiap_adj8.feedback_platform.feedback_app.application.port.out.CustomUserRepository;
-import fiap_adj8.feedback_platform.feedback_app.application.service.CreateFeedbackByIdUseCaseImpl;
-import fiap_adj8.feedback_platform.feedback_app.application.service.FindFeedbackByIdUseCaseImpl;
-import fiap_adj8.feedback_platform.feedback_app.application.service.FindLessonByIdUseCaseImpl;
-import fiap_adj8.feedback_platform.feedback_app.application.service.FindStudentByIdUseCaseImpl;
+import fiap_adj8.feedback_platform.feedback_app.application.service.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,8 +12,8 @@ import org.springframework.context.annotation.Configuration;
 public class FeedbackUseCaseConfiguration {
 
     @Bean
-    public FindFeedbackByIdUseCase findFeedbackByIdUseCase(CustomFeedbackRepository customFeedbackRepository) {
-        return new FindFeedbackByIdUseCaseImpl(customFeedbackRepository);
+    public FindFeedbackByIdForAdminUseCase findFeedbackByIdUseCase(CustomFeedbackRepository customFeedbackRepository) {
+        return new FindFeedbackByIdForAdminUseCaseImpl(customFeedbackRepository);
     }
 
     @Bean
@@ -28,13 +22,19 @@ public class FeedbackUseCaseConfiguration {
     }
 
     @Bean
-    public FindStudentByIdUseCase findStudentByIdUseCase(CustomUserRepository customUserRepository) {
-        return new FindStudentByIdUseCaseImpl(customUserRepository);
+    public FindStudentByEmailUseCase findStudentByIdUseCase(CustomUserRepository customUserRepository) {
+        return new FindStudentByEmailUseCaseImpl(customUserRepository);
     }
 
     @Bean
-    public CreateFeedbackUseCase createFeedbackUseCase(CustomFeedbackRepository customFeedbackRepository, FindStudentByIdUseCase findStudentByIdUseCase, FindLessonByIdUseCase findLessonByIdUseCase) {
-        return new CreateFeedbackByIdUseCaseImpl(customFeedbackRepository, findStudentByIdUseCase, findLessonByIdUseCase);
+    public CreateFeedbackUseCase createFeedbackUseCase(CustomFeedbackRepository customFeedbackRepository, FindStudentByEmailUseCase findStudentByEmailUseCase, FindLessonByIdUseCase findLessonByIdUseCase) {
+        return new CreateFeedbackByIdUseCaseImpl(customFeedbackRepository, findStudentByEmailUseCase, findLessonByIdUseCase);
     }
+
+    @Bean
+    FindFeedbackByIdForStudentUseCase findFeedbackByIdForStudentUseCase(CustomFeedbackRepository customFeedbackRepository) {
+        return new FindFeedbackByIdForStudentUseCaseImpl(customFeedbackRepository);
+    }
+
 
 }

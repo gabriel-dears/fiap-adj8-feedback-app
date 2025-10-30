@@ -19,14 +19,14 @@ public class DtoFeedbackMapper {
         );
     }
 
-    public static Feedback toDomain(CreateFeedbackRequestDto createFeedbackRequestDto) {
+    public static Feedback toDomain(CreateFeedbackRequestDto createFeedbackRequestDto, String email) {
         Feedback feedback = new Feedback();
         feedback.setComment(createFeedbackRequestDto.comment());
         feedback.setRating(createFeedbackRequestDto.rating());
         feedback.setUrgent(createFeedbackRequestDto.urgent());
         feedback.setDate(createFeedbackRequestDto.date());
         User user = new User();
-        user.setId(createFeedbackRequestDto.studentId());
+        user.setEmail(email);
         feedback.setStudent(user);
         Lesson lesson = new Lesson();
         lesson.setId(createFeedbackRequestDto.lessonId());
