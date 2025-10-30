@@ -26,7 +26,6 @@ public class DtoFeedbackMapper {
         feedback.setComment(createFeedbackRequestDto.comment());
         feedback.setRating(createFeedbackRequestDto.rating());
         feedback.setUrgent(createFeedbackRequestDto.urgent());
-        feedback.setDate(createFeedbackRequestDto.date());
         User user = new User();
         user.setEmail(email);
         feedback.setStudent(user);

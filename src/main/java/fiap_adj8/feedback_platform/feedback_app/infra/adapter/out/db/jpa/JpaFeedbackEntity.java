@@ -44,4 +44,14 @@ public class JpaFeedbackEntity {
 
     private LocalDateTime date;
 
+    @PreUpdate
+    public void preUpdate() {
+        this.date = LocalDateTime.now();
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.date = LocalDateTime.now();
+    }
+
 }

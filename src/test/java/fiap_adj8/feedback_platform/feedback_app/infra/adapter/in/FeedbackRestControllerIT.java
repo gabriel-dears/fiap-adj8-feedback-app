@@ -14,7 +14,6 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
@@ -65,8 +64,7 @@ class FeedbackRestControllerIT {
                 UUID.fromString("e8d1f5c4-7122-4d1b-8e5c-0a9b1b9e3a99"),
                 comment,
                 Rating.FIVE,
-                true,
-                LocalDateTime.now()
+                true
         );
 
         String postResponse = mockMvc.perform(post("/feedback")

@@ -1,5 +1,6 @@
 package fiap_adj8.feedback_platform.feedback_app.infra.exception;
 
+import fiap_adj8.feedback_platform.feedback_app.application.exception.OnlyStudentsCanCreateFeedbackException;
 import fiap_adj8.feedback_platform.feedback_app.domain.exception.*;
 import fiap_adj8.feedback_platform.feedback_app.infra.exception.dto.ErrorResponseDto;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,15 @@ public class GlobalExceptionHandler {
     })
     public ResponseEntity<ErrorResponseDto> handleInputErrors(RuntimeException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
+        ErrorResponseDto error = new ErrorResponseDto(status.value(), ex.getMessage());
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler({
+            OnlyStudentsCanCreateFeedbackException.class
+    })
+    public ResponseEntity<ErrorResponseDto> handleForbiddenErrors(RuntimeException ex) {
+        HttpStatus status = HttpStatus.FORBIDDEN;
         ErrorResponseDto error = new ErrorResponseDto(status.value(), ex.getMessage());
         return ResponseEntity.status(status).body(error);
     }
