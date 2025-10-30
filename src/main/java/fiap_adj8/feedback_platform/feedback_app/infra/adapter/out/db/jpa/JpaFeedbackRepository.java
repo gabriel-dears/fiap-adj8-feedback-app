@@ -13,4 +13,6 @@ public interface JpaFeedbackRepository extends JpaRepository<JpaFeedbackEntity, 
     Optional<JpaFeedbackEntity> findByIdAndStudent_Email(UUID id, String studentEmail);
 
     Page<JpaFeedbackEntity> findByStudent_Email(String studentEmail, Pageable pageable);
+
+    boolean existsByStudent_IdAndLesson_Id(UUID studentId, UUID lessonId);
 }

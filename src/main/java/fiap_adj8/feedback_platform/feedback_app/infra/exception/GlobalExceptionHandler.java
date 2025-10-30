@@ -1,6 +1,7 @@
 package fiap_adj8.feedback_platform.feedback_app.infra.exception;
 
 import fiap_adj8.feedback_platform.feedback_app.application.exception.OnlyStudentsCanCreateFeedbackException;
+import fiap_adj8.feedback_platform.feedback_app.application.exception.StudentHasAlreadyCreatedFeedbackForThatLesson;
 import fiap_adj8.feedback_platform.feedback_app.domain.exception.*;
 import fiap_adj8.feedback_platform.feedback_app.infra.exception.dto.ErrorResponseDto;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({
             NullLessonIdException.class,
-            NullStudentIdException.class
+            NullStudentIdException.class,
+            StudentHasAlreadyCreatedFeedbackForThatLesson.class
     })
     public ResponseEntity<ErrorResponseDto> handleInputErrors(RuntimeException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
@@ -47,19 +49,25 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ErrorResponseDto> handleValidationException(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(error ->
                 errors.put(error.getField(), error.getDefaultMessage())
         );
-        return ResponseEntity.badRequest().body(errors);
+        return ResponseEntity.badRequest().body(new ErrorResponseDto(
+                HttpStatus.BAD_REQUEST.value(),
+                errors.toString()
+        ));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<Map<String, String>> handleJsonParseException(HttpMessageNotReadableException ex) {
-        Map<String, String> response = new HashMap<>();
-        response.put("error", "Invalid JSON format or enum value");
-        return ResponseEntity.badRequest().body(response);
+    public ResponseEntity<ErrorResponseDto> handleJsonParseException() {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", "Invalid JSON format or enum value");
+        return ResponseEntity.badRequest().body(new ErrorResponseDto(
+                HttpStatus.BAD_REQUEST.value(),
+                errors.toString()
+        ));
     }
 
     @ExceptionHandler(Exception.class)

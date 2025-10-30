@@ -58,4 +58,9 @@ public class JpaCustomFeedbackRepository implements CustomFeedbackRepository {
         return jpaFeedbackMapper.toApplicationPage(jpaPage);
     }
 
+    @Override
+    public boolean existsByLessonAndStudent(UUID lessonId, UUID studentId) {
+        return jpaFeedbackRepositoryRunner.run(() -> jpaFeedbackRepository.existsByStudent_IdAndLesson_Id(studentId, lessonId));
+    }
+
 }
