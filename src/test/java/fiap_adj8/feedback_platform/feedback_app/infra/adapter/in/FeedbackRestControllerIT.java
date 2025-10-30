@@ -1,7 +1,6 @@
 package fiap_adj8.feedback_platform.feedback_app.infra.adapter.in;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fiap_adj8.feedback_platform.feedback_app.domain.model.Rating;
 import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.dto.CreateFeedbackRequestDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +62,7 @@ class FeedbackRestControllerIT {
         CreateFeedbackRequestDto request = new CreateFeedbackRequestDto(
                 UUID.fromString("e8d1f5c4-7122-4d1b-8e5c-0a9b1b9e3a99"),
                 comment,
-                Rating.FIVE,
+                "FIVE",
                 true
         );
 
