@@ -13,21 +13,25 @@ public class JpaCustomUserRepository implements CustomUserRepository {
 
     private final JpaUserRepository jpaUserRepository;
     private final JpaUserMapper jpaUserMapper;
+    private final JpaUserRepositoryRunner jpaUserRepositoryRunner;
 
-    public JpaCustomUserRepository(JpaUserRepository jpaUserRepository, JpaUserMapper jpaUserMapper) {
+    public JpaCustomUserRepository(JpaUserRepository jpaUserRepository, JpaUserMapper jpaUserMapper, JpaUserRepositoryRunner jpaUserRepositoryRunner) {
         this.jpaUserRepository = jpaUserRepository;
         this.jpaUserMapper = jpaUserMapper;
+        this.jpaUserRepositoryRunner = jpaUserRepositoryRunner;
     }
-
-    // TODO: wrap all db operations and create custom exceptions
 
     @Override
     public Optional<User> findByIdAndRole(UUID id, Role role) {
+
         Optional<User> optResponse = Optional.empty();
-        Optional<JpaUserEntity> opt = jpaUserRepository.findByIdAndRole(id, role);
+
+        Optional<JpaUserEntity> opt = jpaUserRepositoryRunner.run(() -> jpaUserRepository.findByIdAndRole(id, role));
+
         if (opt.isPresent()) {
             optResponse = Optional.of(jpaUserMapper.toModel(opt.get()));
         }
         return optResponse;
     }
+
 }

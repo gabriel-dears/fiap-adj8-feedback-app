@@ -12,17 +12,17 @@ public class JpaCustomFeedbackRepository implements CustomFeedbackRepository {
 
     private final JpaFeedbackRepository jpaFeedbackRepository;
     private final JpaFeedbackMapper jpaFeedbackMapper;
+    private final JpaFeedbackRepositoryRunner jpaFeedbackRepositoryRunner;
 
-    // TODO: wrap all db operations and create custom exceptions
-
-    public JpaCustomFeedbackRepository(JpaFeedbackRepository jpaFeedbackRepository, JpaFeedbackMapper jpaFeedbackMapper) {
+    public JpaCustomFeedbackRepository(JpaFeedbackRepository jpaFeedbackRepository, JpaFeedbackMapper jpaFeedbackMapper, JpaFeedbackRepositoryRunner jpaFeedbackRepositoryRunner) {
         this.jpaFeedbackRepository = jpaFeedbackRepository;
         this.jpaFeedbackMapper = jpaFeedbackMapper;
+        this.jpaFeedbackRepositoryRunner = jpaFeedbackRepositoryRunner;
     }
 
     @Override
     public Optional<Feedback> findById(UUID id) {
-        Optional<JpaFeedbackEntity> opt = jpaFeedbackRepository.findById(id);
+        Optional<JpaFeedbackEntity> opt = jpaFeedbackRepositoryRunner.run(() -> jpaFeedbackRepository.findById(id));
         if (opt.isEmpty()) return Optional.empty();
         Feedback feedback = jpaFeedbackMapper.toModel(opt.get());
         return Optional.of(feedback);
@@ -30,7 +30,8 @@ public class JpaCustomFeedbackRepository implements CustomFeedbackRepository {
 
     @Override
     public Feedback create(Feedback feedback) {
-        JpaFeedbackEntity entity = jpaFeedbackRepository.save(jpaFeedbackMapper.toEntity(feedback));
+        JpaFeedbackEntity inputEntity = jpaFeedbackMapper.toEntity(feedback);
+        JpaFeedbackEntity entity = jpaFeedbackRepositoryRunner.run(() -> jpaFeedbackRepository.save(inputEntity));
         return jpaFeedbackMapper.toModel(entity);
     }
 
