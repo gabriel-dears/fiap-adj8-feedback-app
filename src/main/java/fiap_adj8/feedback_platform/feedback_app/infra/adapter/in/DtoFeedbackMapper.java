@@ -12,8 +12,8 @@ public class DtoFeedbackMapper {
     public static FeedbackResponseDto toDto(Feedback feedback) {
         return new FeedbackResponseDto(
                 feedback.getId(),
-                feedback.getStudent(),
-                feedback.getLesson(),
+                feedback.getStudent().getId(),
+                feedback.getLesson().getId(),
                 feedback.getComment(),
                 feedback.getRating(),
                 feedback.getUrgent(),
