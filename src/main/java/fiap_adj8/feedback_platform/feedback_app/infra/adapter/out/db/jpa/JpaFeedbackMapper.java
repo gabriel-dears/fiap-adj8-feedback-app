@@ -35,7 +35,8 @@ public class JpaFeedbackMapper {
         jpaFeedbackEntity.setUrgent(feedback.getUrgent());
         jpaFeedbackEntity.setComment(feedback.getComment());
         jpaFeedbackEntity.setDate(feedback.getDate());
-        // TODO: handle Student and Lesson
+        jpaFeedbackEntity.setLesson(jpaLessonMapper.toEntity(feedback.getLesson()));
+        jpaFeedbackEntity.setStudent(jpaStudentMapper.toEntity(feedback.getStudent()));
         return jpaFeedbackEntity;
     }
 }

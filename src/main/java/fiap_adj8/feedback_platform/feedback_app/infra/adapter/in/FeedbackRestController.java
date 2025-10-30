@@ -30,7 +30,7 @@ public class FeedbackRestController {
         return ResponseEntity.ok(DtoFeedbackMapper.toDto(feedback));
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<FeedbackResponseDto> createFeedback(@RequestBody CreateFeedbackRequestDto createFeedbackRequestDto, UriComponentsBuilder uriComponentsBuilder) {
         Feedback feedbackRequest = DtoFeedbackMapper.toDomain(createFeedbackRequestDto);
         Feedback feedbackAfterCreation = createFeedbackUseCase.execute(feedbackRequest);
@@ -38,8 +38,5 @@ public class FeedbackRestController {
         return ResponseEntity.created(uri).body(DtoFeedbackMapper.toDto(feedbackAfterCreation));
     }
 
-    // TODO: populate fields
     // TODO: create integration tests
-    // TODO: create CRUD
-
 }

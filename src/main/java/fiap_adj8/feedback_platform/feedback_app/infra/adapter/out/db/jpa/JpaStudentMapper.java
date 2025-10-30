@@ -14,4 +14,13 @@ public class JpaStudentMapper {
         user.setRole(jpaUserEntity.getRole());
         return user;
     }
+
+    public JpaUserEntity toEntity(User student) {
+        JpaUserEntity jpaUserEntity = new JpaUserEntity();
+        jpaUserEntity.setId(student.getId());
+        jpaUserEntity.setName(student.getName());
+        jpaUserEntity.setEmail(student.getEmail());
+        jpaUserEntity.setRole(student.getRole());
+        return jpaUserEntity;
+    }
 }

@@ -12,4 +12,11 @@ public class JpaLessonMapper {
         lesson.setDescription(jpaLessonEntity.getDescription());
         return lesson;
     }
+
+    public JpaLessonEntity toEntity(Lesson lesson) {
+        JpaLessonEntity entity = new JpaLessonEntity();
+        entity.setId(lesson.getId());
+        entity.setDescription(lesson.getDescription());
+        return entity;
+    }
 }
