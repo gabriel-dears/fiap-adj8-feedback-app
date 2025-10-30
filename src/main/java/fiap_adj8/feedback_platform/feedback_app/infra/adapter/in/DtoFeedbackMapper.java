@@ -3,6 +3,7 @@ package fiap_adj8.feedback_platform.feedback_app.infra.adapter.in;
 import fiap_adj8.feedback_platform.feedback_app.application.model.ApplicationPage;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.Feedback;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.Lesson;
+import fiap_adj8.feedback_platform.feedback_app.domain.model.Rating;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.User;
 import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.dto.ApplicationPageDto;
 import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.dto.CreateFeedbackRequestDto;
@@ -24,8 +25,9 @@ public class DtoFeedbackMapper {
     public static Feedback toDomain(CreateFeedbackRequestDto createFeedbackRequestDto, String email) {
         Feedback feedback = new Feedback();
         feedback.setComment(createFeedbackRequestDto.comment());
-        feedback.setRating(createFeedbackRequestDto.rating());
-        feedback.setUrgent(createFeedbackRequestDto.urgent());
+        feedback.setRating(Rating.valueOf(createFeedbackRequestDto.rating()));
+        Boolean urgent = createFeedbackRequestDto.urgent();
+        feedback.setUrgent(urgent != null && urgent);
         User user = new User();
         user.setEmail(email);
         feedback.setStudent(user);

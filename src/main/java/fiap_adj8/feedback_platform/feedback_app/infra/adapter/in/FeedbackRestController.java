@@ -6,6 +6,7 @@ import fiap_adj8.feedback_platform.feedback_app.domain.model.Feedback;
 import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.dto.ApplicationPageDto;
 import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.dto.CreateFeedbackRequestDto;
 import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.dto.FeedbackResponseDto;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import org.springframework.http.ResponseEntity;
@@ -65,7 +66,7 @@ public class FeedbackRestController {
     }
 
     @PostMapping
-    public ResponseEntity<FeedbackResponseDto> createFeedback(@RequestBody CreateFeedbackRequestDto createFeedbackRequestDto, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<FeedbackResponseDto> createFeedback(@RequestBody @Valid CreateFeedbackRequestDto createFeedbackRequestDto, UriComponentsBuilder uriComponentsBuilder) {
         boolean isStudentRole = authHelper.isStudentRole();
         if (!isStudentRole) {
             throw new OnlyStudentsCanCreateFeedbackException("Only students can create feedback");
