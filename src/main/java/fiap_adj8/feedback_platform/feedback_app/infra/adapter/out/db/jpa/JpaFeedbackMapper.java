@@ -1,6 +1,8 @@
 package fiap_adj8.feedback_platform.feedback_app.infra.adapter.out.db.jpa;
 
+import fiap_adj8.feedback_platform.feedback_app.application.model.ApplicationPage;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.Feedback;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -38,5 +40,17 @@ public class JpaFeedbackMapper {
         jpaFeedbackEntity.setLesson(jpaLessonMapper.toEntity(feedback.getLesson()));
         jpaFeedbackEntity.setStudent(jpaStudentMapper.toEntity(feedback.getStudent()));
         return jpaFeedbackEntity;
+    }
+
+    public ApplicationPage<Feedback> toApplicationPage(Page<JpaFeedbackEntity> jpaPage) {
+        return new ApplicationPage<>(
+                jpaPage.getContent().stream().map(this::toModel).toList(),
+                jpaPage.getNumber(),
+                jpaPage.getSize(),
+                jpaPage.getTotalElements(),
+                jpaPage.getTotalPages(),
+                jpaPage.isLast(),
+                jpaPage.isFirst()
+        );
     }
 }

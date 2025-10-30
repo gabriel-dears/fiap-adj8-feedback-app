@@ -1,8 +1,10 @@
 package fiap_adj8.feedback_platform.feedback_app.infra.adapter.in;
 
+import fiap_adj8.feedback_platform.feedback_app.application.model.ApplicationPage;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.Feedback;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.Lesson;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.User;
+import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.dto.ApplicationPageDto;
 import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.dto.CreateFeedbackRequestDto;
 import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.dto.FeedbackResponseDto;
 
@@ -32,5 +34,17 @@ public class DtoFeedbackMapper {
         lesson.setId(createFeedbackRequestDto.lessonId());
         feedback.setLesson(lesson);
         return feedback;
+    }
+
+    public static ApplicationPageDto<FeedbackResponseDto> toPageDto(ApplicationPage<Feedback> execute) {
+        return new ApplicationPageDto<>(
+                execute.getItems().stream().map(DtoFeedbackMapper::toDto).toList(),
+                execute.getPage(),
+                execute.getSize(),
+                execute.getTotalElements(),
+                execute.getTotalPages(),
+                execute.isLast(),
+                execute.isFirst()
+        );
     }
 }

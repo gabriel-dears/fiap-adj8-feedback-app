@@ -36,5 +36,15 @@ public class FeedbackUseCaseConfiguration {
         return new FindFeedbackByIdForStudentUseCaseImpl(customFeedbackRepository);
     }
 
+    @Bean
+    FindAllFeedbackForAdminUseCase findAllFeedbackForAdminUseCase(CustomFeedbackRepository customFeedbackRepository) {
+        return new FindAllFeedbackForAdminUseCaseImpl(customFeedbackRepository);
+    }
+
+    @Bean
+    FindAllFeedbackForStudentUseCase findAllFeedbackForStudentUseCase(CustomFeedbackRepository customFeedbackRepository) {
+        return new FindAllFeedbackForStudentUseCaseImpl(customFeedbackRepository);
+    }
+
 
 }

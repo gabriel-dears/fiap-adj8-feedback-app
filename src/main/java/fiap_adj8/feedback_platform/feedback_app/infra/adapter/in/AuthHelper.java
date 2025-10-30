@@ -19,6 +19,10 @@ public class AuthHelper {
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
 
+    String getEmail() {
+        return getAuthentication().getName();
+    }
+
     private Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }

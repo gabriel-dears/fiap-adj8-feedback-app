@@ -10,6 +10,7 @@ public class JpaLessonMapper {
         Lesson lesson = new Lesson();
         lesson.setId(jpaLessonEntity.getId());
         lesson.setDescription(jpaLessonEntity.getDescription());
+        lesson.setName(jpaLessonEntity.getName());
         return lesson;
     }
 

@@ -9,8 +9,8 @@ import java.util.UUID;
 
 public record FeedbackResponseDto(
         UUID id,
-        User student,
-        Lesson lesson,
+        User student, // TODO: create DTO
+        Lesson lesson, // TODO: create DTO
         String comment,
         Rating rating,
         Boolean urgent,
