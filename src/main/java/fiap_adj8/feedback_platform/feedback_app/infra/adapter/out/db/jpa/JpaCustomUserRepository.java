@@ -5,11 +5,11 @@ import fiap_adj8.feedback_platform.feedback_app.domain.model.Role;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.User;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public class JpaCustomUserRepository implements CustomUserRepository {
-
     private final JpaUserRepository jpaUserRepository;
     private final JpaUserMapper jpaUserMapper;
     private final JpaUserRepositoryRunner jpaUserRepositoryRunner;
@@ -30,5 +30,10 @@ public class JpaCustomUserRepository implements CustomUserRepository {
             optResponse = Optional.of(jpaUserMapper.toModel(opt.get()));
         }
         return optResponse;
+    }
+
+    @Override
+    public List<String> findAllAdminEmails() {
+        return jpaUserRepository.findAllAdminEmails();
     }
 }
