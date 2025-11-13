@@ -2,6 +2,7 @@ package fiap_adj8.feedback_platform.feedback_app.infra.config.usecase;
 
 import fiap_adj8.feedback_platform.feedback_app.application.port.in.*;
 import fiap_adj8.feedback_platform.feedback_app.application.port.out.CustomFeedbackRepository;
+import fiap_adj8.feedback_platform.feedback_app.application.port.out.CustomLessonFeedbackSummaryRepository;
 import fiap_adj8.feedback_platform.feedback_app.application.port.out.CustomLessonRepository;
 import fiap_adj8.feedback_platform.feedback_app.application.port.out.CustomUserRepository;
 import fiap_adj8.feedback_platform.feedback_app.application.service.*;
@@ -46,5 +47,14 @@ public class FeedbackUseCaseConfiguration {
         return new FindAllFeedbackForStudentUseCaseImpl(customFeedbackRepository);
     }
 
+    @Bean
+    FindMostRatedFeedbackUseCase findMostRatedFeedbackUseCase(CustomLessonFeedbackSummaryRepository customLessonFeedbackSummaryRepository) {
+        return new FindMostRatedFeedbackUseCaseImpl(customLessonFeedbackSummaryRepository);
+    }
+
+    @Bean
+    FindHighestRankedFeedbackUseCase findHighestRankedFeedbackUseCase(CustomLessonFeedbackSummaryRepository customLessonFeedbackSummaryRepository) {
+        return new FindHighestRankedFeedbackUseCaseImpl(customLessonFeedbackSummaryRepository);
+    }
 
 }

@@ -5,8 +5,8 @@ services:
       dockerfile: Dockerfile
     container_name: fiap-adj8-feedback-app
     ports:
-      - "8080:8080"
-      - "5005:5005"
+      - "8081:8080"
+      - "5006:5005"
     environment:
       TEST: "TEST"
     depends_on:

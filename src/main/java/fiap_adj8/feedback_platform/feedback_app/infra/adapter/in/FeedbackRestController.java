@@ -3,6 +3,7 @@ package fiap_adj8.feedback_platform.feedback_app.infra.adapter.in;
 import fiap_adj8.feedback_platform.feedback_app.application.exception.OnlyStudentsCanCreateFeedbackException;
 import fiap_adj8.feedback_platform.feedback_app.application.port.in.*;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.Feedback;
+import fiap_adj8.feedback_platform.feedback_app.domain.model.LessonFeedbackSummary;
 import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.dto.ApplicationPageDto;
 import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.dto.CreateFeedbackRequestDto;
 import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.dto.FeedbackResponseDto;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -27,14 +30,18 @@ public class FeedbackRestController {
     private final FindAllFeedbackForAdminUseCase findAllFeedbackForAdminUseCase;
     private final FindAllFeedbackForStudentUseCase findAllFeedbackForStudentUseCase;
     private final CreateFeedbackUseCase createFeedbackUseCase;
+    private final FindMostRatedFeedbackUseCase findMostRatedFeedbackUseCase;
+    private final FindHighestRankedFeedbackUseCase findHighestRankedFeedbackUseCase;
     private final AuthHelper authHelper;
 
-    public FeedbackRestController(FindFeedbackByIdForAdminUseCase findFeedbackByIdForAdminUseCase, FindFeedbackByIdForStudentUseCase findFeedbackByIdForStudentUseCase, FindAllFeedbackForAdminUseCase findAllFeedbackForAdminUseCase, FindAllFeedbackForStudentUseCase findAllFeedbackForStudentUseCase, CreateFeedbackUseCase createFeedbackUseCase, AuthHelper authHelper) {
+    public FeedbackRestController(FindFeedbackByIdForAdminUseCase findFeedbackByIdForAdminUseCase, FindFeedbackByIdForStudentUseCase findFeedbackByIdForStudentUseCase, FindAllFeedbackForAdminUseCase findAllFeedbackForAdminUseCase, FindAllFeedbackForStudentUseCase findAllFeedbackForStudentUseCase, CreateFeedbackUseCase createFeedbackUseCase, FindMostRatedFeedbackUseCase findMostRatedFeedbackUseCase, FindHighestRankedFeedbackUseCase findHighestRankedFeedbackUseCase, AuthHelper authHelper) {
         this.findFeedbackByIdForAdminUseCase = findFeedbackByIdForAdminUseCase;
         this.findFeedbackByIdForStudentUseCase = findFeedbackByIdForStudentUseCase;
         this.findAllFeedbackForAdminUseCase = findAllFeedbackForAdminUseCase;
         this.findAllFeedbackForStudentUseCase = findAllFeedbackForStudentUseCase;
         this.createFeedbackUseCase = createFeedbackUseCase;
+        this.findMostRatedFeedbackUseCase = findMostRatedFeedbackUseCase;
+        this.findHighestRankedFeedbackUseCase = findHighestRankedFeedbackUseCase;
         this.authHelper = authHelper;
     }
 
@@ -76,6 +83,16 @@ public class FeedbackRestController {
         Feedback feedbackAfterCreation = createFeedbackUseCase.execute(feedbackRequest);
         URI uri = uriComponentsBuilder.buildAndExpand(feedbackAfterCreation.getId()).toUri();
         return ResponseEntity.created(uri).body(DtoFeedbackMapper.toDto(feedbackAfterCreation));
+    }
+
+    @GetMapping("/most-rated")
+    public ResponseEntity<List<LessonFeedbackSummary>> findMostRatedFeedback(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
+        return ResponseEntity.ok(findMostRatedFeedbackUseCase.execute(startDate, endDate));
+    }
+
+    @GetMapping("/highest-ranked")
+    public ResponseEntity<List<LessonFeedbackSummary>> findHighestRankedFeedback(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
+        return ResponseEntity.ok(findHighestRankedFeedbackUseCase.execute(startDate, endDate));
     }
 
     // TODO: create unit tests -> using AI?
