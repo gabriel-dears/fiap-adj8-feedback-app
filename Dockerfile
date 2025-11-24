@@ -31,7 +31,7 @@ WORKDIR /app
 COPY --from=builder /app/target/*.jar app.jar
 
 # Expose HTTP and debug ports
-EXPOSE 8080 5005
+EXPOSE 5005
 
 # JVM optimizations
 ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"

@@ -1,0 +1,26 @@
+runtime: custom
+env: flex
+service: fiap-feedback-app
+
+beta_settings:
+  cloud_sql_instances: fiap-adj8-feedback-platform:us-central1:feedback-db-instance
+
+# Automatic scaling (ajuste conforme free tier)
+automatic_scaling:
+  min_num_instances: 1
+  max_num_instances: 2
+  cool_down_period_sec: 60
+  cpu_utilization:
+    target_utilization: 0.6
+
+resources:
+  cpu: 1
+  memory_gb: 1
+  disk_size_gb: 10
+
+# Variáveis de ambiente do Spring Boot
+env_variables:
+#  SPRING_DATASOURCE_URL: jdbc:postgresql://136.115.113.138:5432/feedback_db
+#  SPRING_DATASOURCE_USERNAME: postgres
+#  SPRING_DATASOURCE_PASSWORD: root
+#  SPRING_PROFILES_ACTIVE: prod
