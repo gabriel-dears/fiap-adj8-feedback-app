@@ -1,12 +1,12 @@
-package fiap_adj8.feedback_platform.feedback_app.infra.adapter.in;
+package fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.http;
 
 import fiap_adj8.feedback_platform.feedback_app.application.exception.OnlyStudentsCanCreateFeedbackException;
 import fiap_adj8.feedback_platform.feedback_app.application.port.in.*;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.Feedback;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.LessonFeedbackSummary;
-import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.dto.ApplicationPageDto;
-import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.dto.CreateFeedbackRequestDto;
-import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.dto.FeedbackResponseDto;
+import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.http.dto.ApplicationPageDto;
+import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.http.dto.CreateFeedbackRequestDto;
+import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.http.dto.FeedbackResponseDto;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

@@ -1,10 +1,11 @@
 package fiap_adj8.feedback_platform.feedback_app.infra.config.usecase;
 
 import fiap_adj8.feedback_platform.feedback_app.application.port.in.*;
-import fiap_adj8.feedback_platform.feedback_app.application.port.out.CustomFeedbackRepository;
-import fiap_adj8.feedback_platform.feedback_app.application.port.out.CustomLessonFeedbackSummaryRepository;
-import fiap_adj8.feedback_platform.feedback_app.application.port.out.CustomLessonRepository;
-import fiap_adj8.feedback_platform.feedback_app.application.port.out.CustomUserRepository;
+import fiap_adj8.feedback_platform.feedback_app.application.port.out.db.CustomFeedbackRepository;
+import fiap_adj8.feedback_platform.feedback_app.application.port.out.db.CustomLessonFeedbackSummaryRepository;
+import fiap_adj8.feedback_platform.feedback_app.application.port.out.db.CustomLessonRepository;
+import fiap_adj8.feedback_platform.feedback_app.application.port.out.db.CustomUserRepository;
+import fiap_adj8.feedback_platform.feedback_app.application.port.out.message.FeedbackAlertsPubSubPublisherPortOut;
 import fiap_adj8.feedback_platform.feedback_app.application.service.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,8 +29,8 @@ public class FeedbackUseCaseConfiguration {
     }
 
     @Bean
-    public CreateFeedbackUseCase createFeedbackUseCase(CustomFeedbackRepository customFeedbackRepository, FindStudentByEmailUseCase findStudentByEmailUseCase, FindLessonByIdUseCase findLessonByIdUseCase) {
-        return new CreateFeedbackByIdUseCaseImpl(customFeedbackRepository, findStudentByEmailUseCase, findLessonByIdUseCase);
+    public CreateFeedbackUseCase createFeedbackUseCase(CustomFeedbackRepository customFeedbackRepository, FindStudentByEmailUseCase findStudentByEmailUseCase, FindLessonByIdUseCase findLessonByIdUseCase, FeedbackAlertsPubSubPublisherPortOut feedbackAlertsPubSubPublisherPortOut) {
+        return new CreateFeedbackByIdUseCaseImpl(customFeedbackRepository, findStudentByEmailUseCase, findLessonByIdUseCase, feedbackAlertsPubSubPublisherPortOut);
     }
 
     @Bean

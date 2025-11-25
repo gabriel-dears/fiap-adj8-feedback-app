@@ -1,7 +1,7 @@
 package fiap_adj8.feedback_platform.feedback_app.application.service;
 
 import fiap_adj8.feedback_platform.feedback_app.application.port.in.FindStudentByEmailUseCase;
-import fiap_adj8.feedback_platform.feedback_app.application.port.out.CustomUserRepository;
+import fiap_adj8.feedback_platform.feedback_app.application.port.out.db.CustomUserRepository;
 import fiap_adj8.feedback_platform.feedback_app.domain.exception.NullStudentIdException;
 import fiap_adj8.feedback_platform.feedback_app.domain.exception.UserNotFoundException;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.Role;

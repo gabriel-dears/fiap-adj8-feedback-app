@@ -1,7 +1,7 @@
 package fiap_adj8.feedback_platform.feedback_app.infra.adapter.out.db.jpa;
 
 import fiap_adj8.feedback_platform.feedback_app.application.model.ApplicationPage;
-import fiap_adj8.feedback_platform.feedback_app.application.port.out.CustomFeedbackRepository;
+import fiap_adj8.feedback_platform.feedback_app.application.port.out.db.CustomFeedbackRepository;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.Feedback;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

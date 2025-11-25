@@ -4,7 +4,8 @@ import fiap_adj8.feedback_platform.feedback_app.application.exception.StudentHas
 import fiap_adj8.feedback_platform.feedback_app.application.port.in.CreateFeedbackUseCase;
 import fiap_adj8.feedback_platform.feedback_app.application.port.in.FindLessonByIdUseCase;
 import fiap_adj8.feedback_platform.feedback_app.application.port.in.FindStudentByEmailUseCase;
-import fiap_adj8.feedback_platform.feedback_app.application.port.out.CustomFeedbackRepository;
+import fiap_adj8.feedback_platform.feedback_app.application.port.out.db.CustomFeedbackRepository;
+import fiap_adj8.feedback_platform.feedback_app.application.port.out.message.FeedbackAlertsPubSubPublisherPortOut;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.Feedback;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.Lesson;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.User;
@@ -16,11 +17,13 @@ public class CreateFeedbackByIdUseCaseImpl implements CreateFeedbackUseCase {
     private final CustomFeedbackRepository customFeedbackRepository;
     private final FindStudentByEmailUseCase findStudentByEmailUseCase;
     private final FindLessonByIdUseCase findLessonByIdUseCase;
+    private final FeedbackAlertsPubSubPublisherPortOut feedbackAlertsPubSubPublisherPortOut;
 
-    public CreateFeedbackByIdUseCaseImpl(CustomFeedbackRepository customFeedbackRepository, FindStudentByEmailUseCase findStudentByEmailUseCase, FindLessonByIdUseCase findLessonByIdUseCase) {
+    public CreateFeedbackByIdUseCaseImpl(CustomFeedbackRepository customFeedbackRepository, FindStudentByEmailUseCase findStudentByEmailUseCase, FindLessonByIdUseCase findLessonByIdUseCase, FeedbackAlertsPubSubPublisherPortOut feedbackAlertsPubSubPublisherPortOut) {
         this.customFeedbackRepository = customFeedbackRepository;
         this.findStudentByEmailUseCase = findStudentByEmailUseCase;
         this.findLessonByIdUseCase = findLessonByIdUseCase;
+        this.feedbackAlertsPubSubPublisherPortOut = feedbackAlertsPubSubPublisherPortOut;
     }
 
     @Override
@@ -32,7 +35,16 @@ public class CreateFeedbackByIdUseCaseImpl implements CreateFeedbackUseCase {
         if (customFeedbackRepository.existsByLessonAndStudent(lesson.getId(), student.getId())) {
             throw new StudentHasAlreadyCreatedFeedbackForThatLesson(String.format("Student with id %s has already created a feedback for the lesson with id %s", student.getId(), lesson.getId()));
         }
-        return customFeedbackRepository.create(feedback);
+
+        Feedback feedbackResponse = customFeedbackRepository.create(feedback);
+
+        Boolean urgent = feedbackResponse.getUrgent();
+
+        if(urgent != null && urgent) {
+            feedbackAlertsPubSubPublisherPortOut.publishAlert(feedbackResponse);
+        }
+
+        return feedbackResponse;
     }
 
     private Lesson getLesson(Feedback feedback) {

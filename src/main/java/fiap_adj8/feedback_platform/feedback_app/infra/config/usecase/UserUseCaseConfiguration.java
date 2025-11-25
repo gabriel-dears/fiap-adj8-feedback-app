@@ -2,7 +2,7 @@ package fiap_adj8.feedback_platform.feedback_app.infra.config.usecase;
 
 import fiap_adj8.feedback_platform.feedback_app.application.port.in.FindAllAdminEmailsUseCase;
 import fiap_adj8.feedback_platform.feedback_app.application.service.FindAllAdminEmailsUseCaseImpl;
-import fiap_adj8.feedback_platform.feedback_app.application.port.out.CustomUserRepository;
+import fiap_adj8.feedback_platform.feedback_app.application.port.out.db.CustomUserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

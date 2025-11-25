@@ -1,4 +1,4 @@
-package fiap_adj8.feedback_platform.feedback_app.infra.adapter.in;
+package fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.http;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -17,6 +17,7 @@ public class JpaLessonMapper {
     public JpaLessonEntity toEntity(Lesson lesson) {
         JpaLessonEntity entity = new JpaLessonEntity();
         entity.setId(lesson.getId());
+        entity.setName(lesson.getName());
         entity.setDescription(lesson.getDescription());
         return entity;
     }

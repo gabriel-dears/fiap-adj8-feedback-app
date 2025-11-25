@@ -1,13 +1,13 @@
-package fiap_adj8.feedback_platform.feedback_app.infra.adapter.in;
+package fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.http;
 
 import fiap_adj8.feedback_platform.feedback_app.application.model.ApplicationPage;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.Feedback;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.Lesson;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.Rating;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.User;
-import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.dto.ApplicationPageDto;
-import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.dto.CreateFeedbackRequestDto;
-import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.dto.FeedbackResponseDto;
+import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.http.dto.ApplicationPageDto;
+import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.http.dto.CreateFeedbackRequestDto;
+import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.http.dto.FeedbackResponseDto;
 
 public class DtoFeedbackMapper {
     public static FeedbackResponseDto toDto(Feedback feedback) {

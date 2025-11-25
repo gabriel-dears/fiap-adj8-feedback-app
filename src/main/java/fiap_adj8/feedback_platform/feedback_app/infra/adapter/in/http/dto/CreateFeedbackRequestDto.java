@@ -1,4 +1,4 @@
-package fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.dto;
+package fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.http.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

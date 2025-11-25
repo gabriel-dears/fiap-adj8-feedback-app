@@ -1,7 +1,7 @@
 package fiap_adj8.feedback_platform.feedback_app.infra.adapter.in;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.dto.CreateFeedbackRequestDto;
+import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.http.dto.CreateFeedbackRequestDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

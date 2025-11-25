@@ -1,7 +1,7 @@
 package fiap_adj8.feedback_platform.feedback_app.application.service;
 
 import fiap_adj8.feedback_platform.feedback_app.application.port.in.FindLessonByIdUseCase;
-import fiap_adj8.feedback_platform.feedback_app.application.port.out.CustomLessonRepository;
+import fiap_adj8.feedback_platform.feedback_app.application.port.out.db.CustomLessonRepository;
 import fiap_adj8.feedback_platform.feedback_app.domain.exception.LessonNotFoundException;
 import fiap_adj8.feedback_platform.feedback_app.domain.exception.NullLessonIdException;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.Lesson;

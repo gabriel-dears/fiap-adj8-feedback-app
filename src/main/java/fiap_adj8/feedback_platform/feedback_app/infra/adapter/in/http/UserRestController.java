@@ -1,4 +1,4 @@
-package fiap_adj8.feedback_platform.feedback_app.infra.adapter.in;
+package fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.http;
 
 import fiap_adj8.feedback_platform.feedback_app.application.port.in.FindAllAdminEmailsUseCase;
 import org.springframework.http.ResponseEntity;

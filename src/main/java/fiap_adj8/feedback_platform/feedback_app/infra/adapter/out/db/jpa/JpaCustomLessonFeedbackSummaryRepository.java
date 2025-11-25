@@ -1,6 +1,6 @@
 package fiap_adj8.feedback_platform.feedback_app.infra.adapter.out.db.jpa;
 
-import fiap_adj8.feedback_platform.feedback_app.application.port.out.CustomLessonFeedbackSummaryRepository;
+import fiap_adj8.feedback_platform.feedback_app.application.port.out.db.CustomLessonFeedbackSummaryRepository;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.LessonFeedbackSummary;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package fiap_adj8.feedback_platform.feedback_app.application.port.out;
+package fiap_adj8.feedback_platform.feedback_app.application.port.out.db;
 
 import fiap_adj8.feedback_platform.feedback_app.domain.model.Role;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.User;

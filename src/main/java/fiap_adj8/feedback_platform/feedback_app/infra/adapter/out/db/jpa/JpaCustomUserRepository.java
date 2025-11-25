@@ -1,6 +1,6 @@
 package fiap_adj8.feedback_platform.feedback_app.infra.adapter.out.db.jpa;
 
-import fiap_adj8.feedback_platform.feedback_app.application.port.out.CustomUserRepository;
+import fiap_adj8.feedback_platform.feedback_app.application.port.out.db.CustomUserRepository;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.Role;
 import fiap_adj8.feedback_platform.feedback_app.domain.model.User;
 import org.springframework.stereotype.Repository;
