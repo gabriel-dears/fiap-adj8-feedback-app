@@ -8,34 +8,74 @@ SERVICE_NAME="feedback-app"
 IMAGE_TAG="latest"
 PROJECT_ID="fiap-adj8-feedback-platform"
 REGION="us-central1"
+SA_NAME="sa-deploy-feedback-app"
+SA_EMAIL="${SA_NAME}@${PROJECT_ID}.iam.gserviceaccount.com"
+KEY_PATH="$HOME/gcp-keys/${SA_NAME}-key.json"
+
+ARTIFACT_REPO="feedback-app"
+GCP_IMAGE="${REGION}-docker.pkg.dev/${PROJECT_ID}/${ARTIFACT_REPO}/${SERVICE_NAME}:${IMAGE_TAG}"
 
 ########################################
-# 0. Build local da imagem Docker
+# FUNÇÕES
 ########################################
-echo "🐳 Buildando imagem Docker localmente..."
+log() {
+  echo -e "[$(date '+%Y-%m-%d %H:%M:%S')] $1"
+}
+
+########################################
+# 1. Autenticação com SA de Deploy
+########################################
+log "🔐 Autenticando com Service Account de Deploy..."
+
+if [ ! -f "$KEY_PATH" ]; then
+  echo "❌ Key não encontrada em $KEY_PATH"
+  exit 1
+fi
+
+gcloud auth activate-service-account "$SA_EMAIL" --key-file="$KEY_PATH"
+gcloud config set project "$PROJECT_ID"
+
+CURRENT_ACCOUNT=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
+if [[ "$CURRENT_ACCOUNT" != "$SA_EMAIL" ]]; then
+  echo "❌ Deploy deve ser executado apenas com $SA_EMAIL"
+  exit 1
+fi
+
+########################################
+# 2. Build da imagem Docker
+########################################
+log "🐳 Buildando imagem Docker..."
 docker build -t ${SERVICE_NAME}:${IMAGE_TAG} .
 
 ########################################
-# 1. Tag para Artifact Registry do GCP
+# 3. Configurar Docker para GCP
 ########################################
-GCP_REPO="us-central1-docker.pkg.dev/${PROJECT_ID}/${SERVICE_NAME}/${SERVICE_NAME}"
-echo "🏷️ Tagging Docker image: ${GCP_REPO}:${IMAGE_TAG}"
-docker tag ${SERVICE_NAME}:${IMAGE_TAG} ${GCP_REPO}:${IMAGE_TAG}
+log "🔧 Configurando Docker para Artifact Registry..."
+gcloud auth configure-docker ${REGION}-docker.pkg.dev --quiet
 
 ########################################
-# 2. Push para Artifact Registry
+# 4. Tagging da imagem
 ########################################
-echo "🚀 Enviando imagem para Artifact Registry..."
-docker push ${GCP_REPO}:${IMAGE_TAG}
+log "🏷️ Tagging da imagem para GCP..."
+docker tag ${SERVICE_NAME}:${IMAGE_TAG} ${GCP_IMAGE}
 
 ########################################
-# 3. Deploy no App Engine Flexível
+# 5. Push para Artifact Registry
 ########################################
-echo "🌐 Deploy no App Engine..."
-gcloud app deploy app.yaml --project ${PROJECT_ID} --quiet
+log "🚀 Enviando imagem para Artifact Registry..."
+docker push ${GCP_IMAGE}
+
+########################################
+# 6. Deploy no App Engine
+########################################
+log "🌍 Deployando no App Engine..."
+gcloud app deploy app.yaml \
+  --project=${PROJECT_ID} \
+  --quiet \
+  --promote
 
 ########################################
 # FINAL
 ########################################
-echo "✅ Deploy concluído!"
-echo "Acesse a aplicação: https://${PROJECT_ID}.appspot.com"
+log "✅ Deploy concluído com sucesso!"
+echo "🌎 URL: https://${PROJECT_ID}.appspot.com"
