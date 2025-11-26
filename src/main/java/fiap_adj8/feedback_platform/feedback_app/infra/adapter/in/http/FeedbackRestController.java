@@ -94,10 +94,4 @@ public class FeedbackRestController {
     public ResponseEntity<List<LessonFeedbackSummary>> findHighestRankedFeedback(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
         return ResponseEntity.ok(findHighestRankedFeedbackUseCase.execute(startDate, endDate));
     }
-
-    // TODO: create unit tests -> using AI?
-    // TODO: create integration tests - find all
-    // TODO: create insomnia collection - add to the project
-    // TODO: should block creating more than one feedback for the same user email and lesson id?
-    // TODO: create environment variables - security
 }

@@ -1,0 +1,16 @@
+digraph FeedbackAppInteractions {
+    rankdir=LR;
+    node [shape=box, style=filled, color=lightblue];
+
+    FeedbackApp [label="Feedback App"];
+    WeeklyReport [label="Weekly Report Function"];
+    NotifyAdmin [label="Notify Admin Function"];
+    PubSubAlerts [label="Pub/Sub: feedback-alerts", shape=ellipse, color=lightgoldenrodyellow];
+    PubSubWeekly [label="Pub/Sub: weekly-feedback-reports", shape=ellipse, color=lightgoldenrodyellow];
+
+    FeedbackApp -> PubSubAlerts [label="publica feedbacks urgentes"];
+    PubSubAlerts -> NotifyAdmin [label="consome feedbacks urgentes"];
+
+    PubSubWeekly -> WeeklyReport [label="trigger semanal"];
+    WeeklyReport -> FeedbackApp [label="consulta REST dados para relatório"];
+}
