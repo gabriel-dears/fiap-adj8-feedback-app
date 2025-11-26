@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://google/feedback_db?cloudSqlInstance=fiap-adj8-feedback-platform:us-central1:feedback-db-instance&socketFactory=com.google.cloud.sql.postgres.SocketFactory&sslmode=disable
+    url: jdbc:postgresql://localhost:5432/feedback_db
     username: fiap_user
     password: pass
     driver-class-name: org.postgresql.Driver
