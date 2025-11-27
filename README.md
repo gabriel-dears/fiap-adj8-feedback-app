@@ -42,13 +42,17 @@ Essas permissões permitem que a aplicação execute deploy, registre logs, cons
 
 ## Deploy
 
-O deploy é realizado pelo script `deploy.sh`:
+O deploy é realizado pelo script `deploy.sh` (verifique a permissão de execução "sudo chmod +x deploy.sh"):
 
 ```bash
 ./deploy.sh
 ```
 
 Ele realiza as seguintes etapas:
+
+- O script carrega automaticamente todas as variáveis definidas no arquivo .env localizado na raiz do projeto.
+
+- Certifique-se de que o .env contém todas as configurações necessárias, como URLs de serviços, credenciais, portas e senhas.
 
 - Autenticação com a Service Account de Deploy (sa-deploy-feedback-app).
 
