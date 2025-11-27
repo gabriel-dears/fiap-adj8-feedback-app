@@ -2,6 +2,19 @@
 set -e
 
 ########################################
+# CARREGAR VARIÁVEIS DO .env
+########################################
+
+ENV_FILE="$(dirname "$0")/.env"
+
+if [ ! -f "$ENV_FILE" ]; then
+  echo "❌ Arquivo .env não encontrado em $ENV_FILE"
+  exit 1
+fi
+
+export $(grep -v '^#' "$ENV_FILE" | xargs)
+
+########################################
 # CONFIGURAÇÕES
 ########################################
 SERVICE_NAME="feedback-app"
@@ -68,11 +81,20 @@ docker push ${GCP_IMAGE}
 ########################################
 # 6. Deploy no App Engine
 ########################################
-log "🌍 Deployando no App Engine..."
-gcloud app deploy app.yaml \
+
+log "🔄 Gerando app.yaml com variáveis resolvidas..."
+
+envsubst < app.yaml > app-rendered.yaml
+
+log "🌍 Deployando no App Engine com variáveis de ambiente..."
+
+gcloud app deploy app-rendered.yaml \
   --project=${PROJECT_ID} \
   --quiet \
   --promote
+
+log "🧹 Removendo arquivo temporário app-rendered.yaml..."
+rm -f app-rendered.yaml
 
 ########################################
 # FINAL
