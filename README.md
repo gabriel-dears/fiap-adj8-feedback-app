@@ -98,11 +98,12 @@ feedback-app/
 
 | Método | URL                        | Descrição                                 | Input                                                                                      |
 | ------ | -------------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------ |
-| POST   | /feedback                  | Cria feedback (somente STUDENT)          | JSON: <br>• `lessonId` (UUID, obrigatório) <br>• `comment` (String) <br>• `rating` (String, ONE|TWO|THREE|FOUR|FIVE, obrigatório) <br>• `urgent` (Boolean) |
+| POST   | /feedback                  | Cria feedback (somente STUDENT)          | JSON (`CreateFeedbackRequestDto`): <br>• `lessonId` (UUID, obrigatório) <br>• `comment` (String, opcional) <br>• `rating` (String, ONE|TWO|THREE|FOUR|FIVE, obrigatório) <br>• `urgent` (Boolean, opcional) |
 | GET    | /feedback                  | Lista todos feedbacks com paginação      | Query params: <br>• `pageNumber` (int, default=0, mínimo 0) <br>• `pageSize` (int, default=10, máximo 50) |
 | GET    | /feedback/{id}             | Consulta feedback por ID                 | Path param: <br>• `id` (UUID do feedback) |
 | GET    | /feedback/most-rated       | Retorna feedbacks mais avaliados         | Query params: <br>• `startDate` (LocalDate, início do período) <br>• `endDate` (LocalDate, fim do período) |
 | GET    | /feedback/highest-ranked   | Retorna feedbacks com maior nota         | Query params: <br>• `startDate` (LocalDate, início do período) <br>• `endDate` (LocalDate, fim do período) |
+
 
 #### Observações:
 
