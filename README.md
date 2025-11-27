@@ -109,15 +109,17 @@ feedback-app/
 Usuários em memória configurados via SecurityConfig:
 
 - student@email.com → ROLE_STUDENT
-
+- student2@email.com → ROLE_STUDENT
+- student3@email.com → ROLE_STUDENT
 - admin@email.com → ROLE_ADMIN
+- backup.gabrielrs@gmail.com → ROLE_ADMIN
+- gabrieldears@gmail.com → ROLE_ADMIN
 
 - Autenticação via HTTP Basic.
 
 ## Autorizações:
 
 - /feedback/** → STUDENT ou ADMIN
-
 - /admin/** → ADMIN
 
 **Senhas codificadas com BCrypt.**
