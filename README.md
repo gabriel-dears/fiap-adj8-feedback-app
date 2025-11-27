@@ -86,21 +86,30 @@ feedback-app/
 
 - Endpoint:
 
-- **GET /user/admin/email** → Retorna emails de todos administradores cadastrados.
+| Método | URL                  | Descrição                               | Input |
+| ------ | ------------------- | -------------------------------------- | ----- |
+| GET    | /user/admin/email    | Retorna emails de todos administradores cadastrados | Nenhum (HTTP GET sem parâmetros) |
+
+---
 
 ### FeedbackRestController
 
 - Endpoints principais:
 
-- **POST /feedback** → Cria feedback (somente STUDENT).
+| Método | URL                        | Descrição                                 | Input                                                                                      |
+| ------ | -------------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------ |
+| POST   | /feedback                  | Cria feedback (somente STUDENT)          | JSON (`CreateFeedbackRequestDto`): <br>• `lessonId` (UUID, obrigatório) <br>• `comment` (String) <br>• `rating` (String, ONE|TWO|THREE|FOUR|FIVE, obrigatório) <br>• `urgent` (Boolean) |
+| GET    | /feedback                  | Lista todos feedbacks com paginação      | Query params: <br>• `pageNumber` (int, default=0, mínimo 0) <br>• `pageSize` (int, default=10, máximo 50) |
+| GET    | /feedback/{id}             | Consulta feedback por ID                 | Path param: <br>• `id` (UUID do feedback) |
+| GET    | /feedback/most-rated       | Retorna feedbacks mais avaliados         | Query params: <br>• `startDate` (LocalDate, início do período) <br>• `endDate` (LocalDate, fim do período) |
+| GET    | /feedback/highest-ranked   | Retorna feedbacks com maior nota         | Query params: <br>• `startDate` (LocalDate, início do período) <br>• `endDate` (LocalDate, fim do período) |
 
-- **GET /feedback** → Lista todos feedbacks com paginação.
+#### Observações:
 
-- **GET /feedback/{id}** → Consulta feedback por ID.
+- Todos os endpoints de `/feedback/**` requerem **autenticação HTTP Basic**.
+- Apenas usuários com **ROLE_STUDENT** podem criar feedback (`POST /feedback`).
+- Admins podem listar e consultar todos os feedbacks; estudantes só podem ver seus próprios.
 
-- **GET /feedback/most-rated** → Retorna feedbacks mais avaliados.
-
-- **GET /feedback/highest-ranked** → Retorna feedbacks com maior nota.
 
 ### ***Roles são verificadas via AuthHelper.***
 
