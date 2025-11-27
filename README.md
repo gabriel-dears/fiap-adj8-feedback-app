@@ -106,23 +106,23 @@ feedback-app/
 
 ## Segurança
 
-Usuários em memória configurados via SecurityConfig:
+Usuários em memória configurados via SecurityConfig (HTTP Basic):
 
-- student@email.com → ROLE_STUDENT
-- student2@email.com → ROLE_STUDENT
-- student3@email.com → ROLE_STUDENT
-- admin@email.com → ROLE_ADMIN
-- backup.gabrielrs@gmail.com → ROLE_ADMIN
-- gabrieldears@gmail.com → ROLE_ADMIN
-
-- Autenticação via HTTP Basic.
+| Usuário                        | Senha       | Role         |
+| -------------------------------| ----------- | ------------ |
+| student@email.com              | student     | STUDENT      |
+| student2@email.com             | student2    | STUDENT      |
+| student3@email.com             | student3    | STUDENT      |
+| admin@email.com                | admin       | ADMIN        |
+| backup.gabrielrs@gmail.com     | admin       | ADMIN        |
+| gabrieldears@gmail.com         | admin       | ADMIN        |
 
 ## Autorizações:
 
-- /feedback/** → STUDENT ou ADMIN
-- /admin/** → ADMIN
+- `/feedback/**` → STUDENT ou ADMIN  
+- `/admin/**` → ADMIN  
 
-**Senhas codificadas com BCrypt.**
+**Senhas codificadas com BCrypt no SecurityConfig.**
 
 ## Banco de Dados
 
