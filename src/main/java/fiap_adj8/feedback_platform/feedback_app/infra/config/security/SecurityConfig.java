@@ -20,18 +20,41 @@ public class SecurityConfig {
 
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
-        UserDetails student = User.withUsername("student@email.com")
+        // STUDENTs
+        UserDetails student1 = User.withUsername("student@email.com")
                 .password(passwordEncoder().encode("student"))
                 .roles("STUDENT")
                 .build();
 
-        UserDetails admin = User.withUsername("admin@email.com")
+        UserDetails student2 = User.withUsername("student2@email.com")
+                .password(passwordEncoder().encode("student2"))
+                .roles("STUDENT")
+                .build();
+
+        UserDetails student3 = User.withUsername("student3@email.com")
+                .password(passwordEncoder().encode("student3"))
+                .roles("STUDENT")
+                .build();
+
+        // ADMINs
+        UserDetails admin1 = User.withUsername("admin@email.com")
                 .password(passwordEncoder().encode("admin"))
                 .roles("ADMIN")
                 .build();
 
-        return new InMemoryUserDetailsManager(student, admin);
+        UserDetails admin2 = User.withUsername("backup.gabrielrs@gmail.com")
+                .password(passwordEncoder().encode("admin"))
+                .roles("ADMIN")
+                .build();
+
+        UserDetails admin3 = User.withUsername("gabrieldears@gmail.com")
+                .password(passwordEncoder().encode("admin"))
+                .roles("ADMIN")
+                .build();
+
+        return new InMemoryUserDetailsManager(student1, student2, student3, admin1, admin2, admin3);
     }
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
