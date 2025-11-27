@@ -8,7 +8,12 @@ services:
       - "8081:8080"
       - "5006:5005"
     environment:
-      TEST: "TEST"
+      DB_HOST: fiap-adj8-feedback-app-db
+      DB_PORT: 5432
+      DB_NAME: feedback_db
+      DB_USERNAME: user
+      DB_PASSWORD: pass
+      SERVER_PORT: 8080
     depends_on:
       fiap-adj8-feedback-app-db:
         condition: service_healthy
