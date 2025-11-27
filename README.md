@@ -93,8 +93,7 @@ feedback-app/
 ---
 
 ### FeedbackRestController
-
-- Endpoints principais:
+Endpoints principais:
 
 | Método | URL                        | Descrição                                 | Input                                                                                      |
 | ------ | -------------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------ |
@@ -103,6 +102,7 @@ feedback-app/
 | GET    | /feedback/{id}             | Consulta feedback por ID                 | Path param: <br>• `id` (UUID do feedback) |
 | GET    | /feedback/most-rated       | Retorna feedbacks mais avaliados         | Query params: <br>• `startDate` (LocalDate, início do período) <br>• `endDate` (LocalDate, fim do período) |
 | GET    | /feedback/highest-ranked   | Retorna feedbacks com maior nota         | Query params: <br>• `startDate` (LocalDate, início do período) <br>• `endDate` (LocalDate, fim do período) |
+
 
 
 #### Observações:
