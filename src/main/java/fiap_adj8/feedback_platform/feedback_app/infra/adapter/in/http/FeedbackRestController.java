@@ -25,6 +25,9 @@ import java.util.UUID;
 @Validated
 public class FeedbackRestController {
 
+    // TODO: criar vídeo e colocar link no DOCUMENTATION.md e gerar de novo
+    // TODO: colocar collection de testes e comentar no readme do app
+
     private final FindFeedbackByIdForAdminUseCase findFeedbackByIdForAdminUseCase;
     private final FindFeedbackByIdForStudentUseCase findFeedbackByIdForStudentUseCase;
     private final FindAllFeedbackForAdminUseCase findAllFeedbackForAdminUseCase;
