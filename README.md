@@ -155,7 +155,7 @@ Usuários em memória configurados via SecurityConfig (HTTP Basic):
 
 ## Banco de Dados
 
-- Cloud SQL (Postgres 16)
+- Cloud SQL (Postgres 16) - Utilizando Cloud Sql Proxy
 
 - Flyway é utilizado para versionamento e migração do banco.
 
