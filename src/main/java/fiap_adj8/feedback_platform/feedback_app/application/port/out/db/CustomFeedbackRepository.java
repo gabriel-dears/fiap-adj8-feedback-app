@@ -19,4 +19,8 @@ public interface CustomFeedbackRepository {
     ApplicationPage<Feedback> findAll(Integer pageNumber, Integer pageSize, String email);
 
     boolean existsByLessonAndStudent(UUID lessonId, UUID studentId);
+
+    Feedback update(Feedback feedback);
+
+    void delete(UUID feedbackId);
 }

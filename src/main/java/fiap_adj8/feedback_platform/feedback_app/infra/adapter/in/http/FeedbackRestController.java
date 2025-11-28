@@ -7,6 +7,7 @@ import fiap_adj8.feedback_platform.feedback_app.domain.model.LessonFeedbackSumma
 import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.http.dto.ApplicationPageDto;
 import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.http.dto.CreateFeedbackRequestDto;
 import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.http.dto.FeedbackResponseDto;
+import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.http.dto.UpdateFeedbackRequestDto;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -35,9 +36,11 @@ public class FeedbackRestController {
     private final CreateFeedbackUseCase createFeedbackUseCase;
     private final FindMostRatedFeedbackUseCase findMostRatedFeedbackUseCase;
     private final FindHighestRankedFeedbackUseCase findHighestRankedFeedbackUseCase;
+    private final UpdateFeedbackUseCase updateFeedbackUseCase;
+    private final DeleteFeedbackUseCase deleteFeedbackUseCase;
     private final AuthHelper authHelper;
 
-    public FeedbackRestController(FindFeedbackByIdForAdminUseCase findFeedbackByIdForAdminUseCase, FindFeedbackByIdForStudentUseCase findFeedbackByIdForStudentUseCase, FindAllFeedbackForAdminUseCase findAllFeedbackForAdminUseCase, FindAllFeedbackForStudentUseCase findAllFeedbackForStudentUseCase, CreateFeedbackUseCase createFeedbackUseCase, FindMostRatedFeedbackUseCase findMostRatedFeedbackUseCase, FindHighestRankedFeedbackUseCase findHighestRankedFeedbackUseCase, AuthHelper authHelper) {
+    public FeedbackRestController(FindFeedbackByIdForAdminUseCase findFeedbackByIdForAdminUseCase, FindFeedbackByIdForStudentUseCase findFeedbackByIdForStudentUseCase, FindAllFeedbackForAdminUseCase findAllFeedbackForAdminUseCase, FindAllFeedbackForStudentUseCase findAllFeedbackForStudentUseCase, CreateFeedbackUseCase createFeedbackUseCase, FindMostRatedFeedbackUseCase findMostRatedFeedbackUseCase, FindHighestRankedFeedbackUseCase findHighestRankedFeedbackUseCase, UpdateFeedbackUseCase updateFeedbackUseCase, DeleteFeedbackUseCase deleteFeedbackUseCase, AuthHelper authHelper) {
         this.findFeedbackByIdForAdminUseCase = findFeedbackByIdForAdminUseCase;
         this.findFeedbackByIdForStudentUseCase = findFeedbackByIdForStudentUseCase;
         this.findAllFeedbackForAdminUseCase = findAllFeedbackForAdminUseCase;
@@ -45,6 +48,8 @@ public class FeedbackRestController {
         this.createFeedbackUseCase = createFeedbackUseCase;
         this.findMostRatedFeedbackUseCase = findMostRatedFeedbackUseCase;
         this.findHighestRankedFeedbackUseCase = findHighestRankedFeedbackUseCase;
+        this.updateFeedbackUseCase = updateFeedbackUseCase;
+        this.deleteFeedbackUseCase = deleteFeedbackUseCase;
         this.authHelper = authHelper;
     }
 
@@ -86,6 +91,29 @@ public class FeedbackRestController {
         Feedback feedbackAfterCreation = createFeedbackUseCase.execute(feedbackRequest);
         URI uri = uriComponentsBuilder.buildAndExpand(feedbackAfterCreation.getId()).toUri();
         return ResponseEntity.created(uri).body(DtoFeedbackMapper.toDto(feedbackAfterCreation));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<FeedbackResponseDto> updateFeedback(@RequestBody @Valid UpdateFeedbackRequestDto updateFeedbackRequestDto, @PathVariable UUID id) {
+        boolean isStudentRole = authHelper.isStudentRole();
+        if (!isStudentRole) {
+            throw new OnlyStudentsCanCreateFeedbackException("Only students can update feedback");
+        }
+        String email = authHelper.getEmail();
+        Feedback feedbackRequest = DtoFeedbackMapper.toDomain(updateFeedbackRequestDto, id, email);
+        Feedback updatedFeedback = updateFeedbackUseCase.execute(feedbackRequest);
+        return ResponseEntity.ok(DtoFeedbackMapper.toDto(updatedFeedback));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteFeedback(@PathVariable UUID id) {
+        boolean isStudentRole = authHelper.isStudentRole();
+        if (!isStudentRole) {
+            throw new OnlyStudentsCanCreateFeedbackException("Only students can delete feedback");
+        }
+        String email = authHelper.getEmail();
+        deleteFeedbackUseCase.execute(id, email);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/most-rated")

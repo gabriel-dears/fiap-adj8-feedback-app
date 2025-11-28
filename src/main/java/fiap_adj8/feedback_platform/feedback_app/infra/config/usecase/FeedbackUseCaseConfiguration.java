@@ -58,4 +58,13 @@ public class FeedbackUseCaseConfiguration {
         return new FindHighestRankedFeedbackUseCaseImpl(customLessonFeedbackSummaryRepository);
     }
 
+    @Bean
+    UpdateFeedbackUseCase updateFeedbackUseCase(CustomFeedbackRepository customFeedbackRepository, FeedbackAlertsPubSubPublisherPortOut feedbackAlertsPubSubPublisherPortOut, FindStudentByEmailUseCase findStudentByEmailUseCase) {
+        return new UpdateFeedbackUseCaseImpl(customFeedbackRepository, feedbackAlertsPubSubPublisherPortOut, findStudentByEmailUseCase);
+    }
+
+    @Bean
+    DeleteFeedbackUseCase deleteFeedbackUseCase(CustomFeedbackRepository customFeedbackRepository) {
+        return new DeleteFeedbackUseCaseImpl(customFeedbackRepository);
+    }
 }

@@ -8,6 +8,10 @@ import fiap_adj8.feedback_platform.feedback_app.domain.model.User;
 import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.http.dto.ApplicationPageDto;
 import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.http.dto.CreateFeedbackRequestDto;
 import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.http.dto.FeedbackResponseDto;
+import fiap_adj8.feedback_platform.feedback_app.infra.adapter.in.http.dto.UpdateFeedbackRequestDto;
+import jakarta.validation.Valid;
+
+import java.util.UUID;
 
 public class DtoFeedbackMapper {
     public static FeedbackResponseDto toDto(Feedback feedback) {
@@ -24,8 +28,8 @@ public class DtoFeedbackMapper {
 
     public static Feedback toDomain(CreateFeedbackRequestDto createFeedbackRequestDto, String email) {
         Feedback feedback = new Feedback();
-        feedback.setComment(createFeedbackRequestDto.comment());
         feedback.setRating(Rating.valueOf(createFeedbackRequestDto.rating()));
+        feedback.setComment(createFeedbackRequestDto.comment());
         Boolean urgent = createFeedbackRequestDto.urgent();
         feedback.setUrgent(urgent != null && urgent);
         User user = new User();
@@ -47,5 +51,18 @@ public class DtoFeedbackMapper {
                 execute.isLast(),
                 execute.isFirst()
         );
+    }
+
+    public static Feedback toDomain(@Valid UpdateFeedbackRequestDto updateFeedbackRequestDto, UUID id, String email) {
+        Feedback feedback = new Feedback();
+        feedback.setId(id);
+        feedback.setComment(updateFeedbackRequestDto.comment());
+        feedback.setRating(Rating.valueOf(updateFeedbackRequestDto.rating()));
+        Boolean urgent = updateFeedbackRequestDto.urgent();
+        feedback.setUrgent(urgent != null && urgent);
+        User user = new User();
+        user.setEmail(email);
+        feedback.setStudent(user);
+        return feedback;
     }
 }

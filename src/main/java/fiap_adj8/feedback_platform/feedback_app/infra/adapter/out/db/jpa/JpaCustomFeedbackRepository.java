@@ -63,4 +63,19 @@ public class JpaCustomFeedbackRepository implements CustomFeedbackRepository {
         return jpaFeedbackRepositoryRunner.run(() -> jpaFeedbackRepository.existsByStudent_IdAndLesson_Id(studentId, lessonId));
     }
 
+    @Override
+    public Feedback update(Feedback feedback) {
+        JpaFeedbackEntity inputEntity = jpaFeedbackMapper.toEntity(feedback);
+        JpaFeedbackEntity entity = jpaFeedbackRepositoryRunner.run(() -> jpaFeedbackRepository.save(inputEntity));
+        return jpaFeedbackMapper.toModel(entity);
+    }
+
+    @Override
+    public void delete(UUID feedbackId) {
+        jpaFeedbackRepositoryRunner.run(() -> {
+            jpaFeedbackRepository.deleteById(feedbackId);
+            return null;
+        });
+    }
+
 }
