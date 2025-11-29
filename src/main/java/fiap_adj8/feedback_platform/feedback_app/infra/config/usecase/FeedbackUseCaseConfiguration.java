@@ -59,8 +59,8 @@ public class FeedbackUseCaseConfiguration {
     }
 
     @Bean
-    UpdateFeedbackUseCase updateFeedbackUseCase(CustomFeedbackRepository customFeedbackRepository, FeedbackAlertsPubSubPublisherPortOut feedbackAlertsPubSubPublisherPortOut, FindStudentByEmailUseCase findStudentByEmailUseCase) {
-        return new UpdateFeedbackUseCaseImpl(customFeedbackRepository, feedbackAlertsPubSubPublisherPortOut, findStudentByEmailUseCase);
+    UpdateFeedbackUseCase updateFeedbackUseCase(CustomFeedbackRepository customFeedbackRepository, FeedbackAlertsPubSubPublisherPortOut feedbackAlertsPubSubPublisherPortOut) {
+        return new UpdateFeedbackUseCaseImpl(customFeedbackRepository, feedbackAlertsPubSubPublisherPortOut);
     }
 
     @Bean
