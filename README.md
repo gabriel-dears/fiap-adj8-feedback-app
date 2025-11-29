@@ -64,6 +64,10 @@ Ele realiza as seguintes etapas:
 
 - Deploy da aplicação no App Engine.
 
+### Coleção para testes:
+
+- Está na raiz do projeto principal: "fiap-adj8-feedback-plataform/tests/FEEDBACK_APP_FASE_4_COLLECTION_INSOMNIA.yaml".
+
 ## Estrutura do Projeto
 
 ```text
