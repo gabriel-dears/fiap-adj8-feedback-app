@@ -83,52 +83,140 @@ feedback-app/
 ## Controllers
 
 ### UserRestController
-
-- Endpoint:
-
-| Método | URL                  | Descrição                               | Input |
-| ------ | ------------------- | -------------------------------------- | ----- |
-| GET    | /user/admin/email    | Retorna emails de todos administradores cadastrados | Nenhum (HTTP GET sem parâmetros) |
+Endpoints principais:
 
 ---
+
+### **GET /user/admin/email** → Retorna emails de todos administradores cadastrados
+Retorna uma lista de emails de usuários com role **ADMIN**.
+
+**Input**:  
+Nenhum (HTTP GET sem parâmetros)
+
+---
+
 
 ### FeedbackRestController
 Endpoints principais:
 
-- **POST /feedback** → Cria feedback (somente STUDENT)  
-  **Input (JSON)** (`CreateFeedbackRequestDto`):
-  - `lessonId` (UUID, obrigatório)
-  - `comment` (String, opcional)
-  - `rating` (String, obrigatório: ONE | TWO | THREE | FOUR | FIVE)
-  - `urgent` (Boolean, opcional)
+---
 
-- **GET /feedback** → Lista todos feedbacks com paginação  
-  **Query params**:
-  - `pageNumber` (int, default=0, mínimo 0)
-  - `pageSize` (int, default=10, máximo 50)
+### **POST /feedback** → Cria feedback (**somente STUDENT**)
+**Input (JSON)** — `CreateFeedbackRequestDto`
+- `lessonId` (UUID, obrigatório)
+- `comment` (String, opcional)
+- `rating` (String, obrigatório: `ONE | TWO | THREE | FOUR | FIVE`)
+- `urgent` (Boolean, opcional)
 
-- **GET /feedback/{id}** → Consulta feedback por ID  
-  **Path param**:
-  - `id` (UUID do feedback)
+---
 
-- **GET /feedback/most-rated** → Retorna feedbacks mais avaliados  
-  **Query params**:
-  - `startDate` (LocalDate, início do período)
-  - `endDate` (LocalDate, fim do período)
+### **GET /feedback** → Lista todos feedbacks com paginação
+**Query params**:
+- `pageNumber` (int, default = 0, mínimo = 0)
+- `pageSize` (int, default = 10, máximo = 50)
 
-- **GET /feedback/highest-ranked** → Retorna feedbacks com maior nota  
-  **Query params**:
-  - `startDate` (LocalDate, início do período)
-  - `endDate` (LocalDate, fim do período)
+---
 
+### **GET /feedback/{id}** → Consulta feedback por ID
+**Path param**:
+- `id` (UUID do feedback)
 
+---
 
+### **GET /feedback/most-rated** → Retorna feedbacks mais avaliados
+**Query params**:
+- `startDate` (LocalDate — início do período)
+- `endDate` (LocalDate — fim do período)
+
+---
+
+### **GET /feedback/highest-ranked** → Retorna feedbacks com maior nota
+**Query params**:
+- `startDate` (LocalDate — início do período)
+- `endDate` (LocalDate — fim do período)
+
+---
+
+### **PATCH /feedback/{id}** → Atualiza feedback (**somente STUDENT**)
+Atualiza campos específicos de um feedback existente.
+
+**Path param**:
+- `id` (UUID do feedback a atualizar)
+
+**Input (JSON)** — `UpdateFeedbackRequestDto`
+- `comment` (String, opcional)
+- `rating` (String, opcional: `ONE | TWO | THREE | FOUR | FIVE`)
+- `urgent` (Boolean, opcional)
+
+**Regras**:
+- Apenas usuários com role **STUDENT** podem atualizar.
+- O sistema valida se o feedback pertence ao autor (via email do token).
+
+---
+
+### **DELETE /feedback/{id}** → Remove feedback (**somente STUDENT**)
+Remove um feedback criado pelo próprio estudante.
+
+**Path param**:
+- `id` (UUID do feedback)
+
+**Regras**:
+- Apenas usuários com role **STUDENT** podem deletar.
+- O sistema valida a posse antes da exclusão.
+
+---
 
 #### Observações:
 
 - Todos os endpoints de `/feedback/**` requerem **autenticação HTTP Basic**.
 - Apenas usuários com **ROLE_STUDENT** podem criar feedback (`POST /feedback`).
 - Admins podem listar e consultar todos os feedbacks; estudantes só podem ver seus próprios.
+
+## Validações e Regras de Negócio
+
+O Feedback App aplica as seguintes validações no domínio, além das verificações de autenticação e DTO:
+
+### **1. Regra de Unicidade na Criação**
+Um estudante **só pode criar um único feedback por aula**.  
+Se já existir um feedback criado por ele para a mesma aula, a operação é rejeitada.
+
+---
+
+### **2. Validação de Propriedade (Update)**
+Somente o estudante que criou o feedback pode atualizá-lo.  
+Se outro usuário tentar alterar o registro, a atualização é bloqueada.
+
+---
+
+### **3. Validação de Propriedade (Delete)**
+A exclusão só pode ser realizada pelo autor do feedback.  
+Caso o usuário autenticado não seja o criador, a operação é recusada.
+
+---
+
+### **4. Validação de Role**
+- **ROLE_STUDENT**
+    - Pode criar feedback
+    - Pode atualizar feedback
+    - Pode deletar feedback
+
+- **ROLE_ADMIN**
+    - Pode listar todos os feedbacks
+    - Pode consultar feedbacks por ID
+    - Não pode criar/editar/excluir feedbacks
+
+---
+
+### **5. Resumo Geral**
+| Operação | Quem pode? | Restrições |
+|---------|-------------|------------|
+| Criar feedback | STUDENT | Não pode ter criado outro para a mesma aula |
+| Atualizar feedback | STUDENT | Somente o autor do feedback |
+| Deletar feedback | STUDENT | Somente o autor do feedback |
+| Listar feedbacks | ADMIN / STUDENT | STUDENT vê apenas seus próprios |
+| Consultar por ID | ADMIN / STUDENT | STUDENT vê apenas seus próprios |
+
+---
 
 
 ### ***Roles são verificadas via AuthHelper.***
